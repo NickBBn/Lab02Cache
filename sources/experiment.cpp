@@ -40,8 +40,8 @@ void Experiment::set_buff_sizes(const std::vector<unsigned int> &l_sizes)
   }
   tmp.push_back(l_sizes.at(2));
   tmp.push_back(l_sizes.at(2)*3/2);
-  tmp.erase(tmp.begin());// #TODO fix!!!
-  tmp.erase(tmp.begin());// #TODO fix!!!
+ // tmp.erase(tmp.begin());// #TODO fix!!!
+ // tmp.erase(tmp.begin());// #TODO fix!!!
   buff_sizes=tmp;
 }
 
@@ -51,31 +51,39 @@ const std::vector<unsigned> &Experiment::get_buff_sizes() const {
 
 void Experiment::run_experiment()
 {
+  srand(static_cast<unsigned int>(time(0)));
   for (unsigned i=0;i<buff_sizes.size();i++){
     run_direct(buff_sizes.at(i));
   }
+  std::cout << std::endl;
   for (unsigned i=0;i<buff_sizes.size();i++){
     run_reverse(buff_sizes.at(i));
   }
+  std::cout << std::endl;
   for (unsigned i=0;i<buff_sizes.size();i++){
     run_random(buff_sizes.at(i));
   }
+  std::cout << std::endl;
 }
 
 void Experiment::run_direct(unsigned int size)
 {
   generate_buff(size/ sizeof(int));
-  warm_up();
+  warm_up(size);
   std::cout << "Direct run: " << size/1024 << " KB" << std::endl;
 }
 
 void Experiment::run_reverse(unsigned int size)
 {
+  generate_buff(size/ sizeof(int));
+  warm_up(size);
   std::cout << "Reverse run: " << size/1024 << " KB" << std::endl;
 }
 
 void Experiment::run_random(unsigned int size)
 {
+  generate_buff(size/ sizeof(int));
+  warm_up(size);
   std::cout << "Random run: " << size/1024 << " KB" << std::endl;
 }
 
@@ -87,19 +95,22 @@ bool Experiment::is_power_of_two(unsigned int number) {
 void Experiment::generate_buff(unsigned int size)
 {
   //size/=sizeof(int);
+  buff.clear();
   for (unsigned i=0; i<size;i++)
   {
-    buff.push_back(i); //change to rand
+    buff.push_back(rand()); //change to rand
   }
 }
 
-void Experiment::warm_up()
+void Experiment::warm_up(unsigned size)
 {
   std::cout << buff.size() << " is buff size; int size is " << sizeof(int) << std::endl;
+  if (size > L1DSIZE) size = L1DSIZE;
+  size/=4;
   [[maybe_unused]] unsigned t=0;
-  for (unsigned i=0; i<L1DSIZE/4; i+=16)
+  for (unsigned i=0; i<size; i+=16)
   {
     t=buff.at(i);
-    std::cout << i << " ";
+    std::cout << t << " ";
   }
 }
