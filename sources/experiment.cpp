@@ -159,7 +159,8 @@ void Experiment::generate_buff(unsigned int int_size)
 
 void Experiment::warm_up(unsigned byte_size)
 {
-  std::cout << buff.size() << " is buff size; size of int is " << sizeof(int) << std::endl;
+  std::cout << buff.size() << " is buff size; size of int is "
+            << sizeof(int) << std::endl;
   if (byte_size > L1DSIZE) byte_size = L1DSIZE;
   unsigned int_size = byte_size/4;
   [[maybe_unused]] unsigned t=0;
