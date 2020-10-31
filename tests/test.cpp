@@ -44,5 +44,7 @@ TEST (Example, First_run)
   l_sizes.push_back(L3SIZE);
   Experiment third (l_sizes);
   third.run_experiment();
+  std::cout << std::endl << std::endl << std::endl << std::endl;
+  std::cout << third.get_report().str();
   EXPECT_TRUE(true);
 }
