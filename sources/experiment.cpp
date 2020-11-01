@@ -3,7 +3,10 @@
 #include <experiment.hpp>
 #include <iostream>
 #include <chrono>
-#include <sstream>
+#include <random>
+
+std::mt19937 engine;
+std::random_device rd;
 
 Experiment::Experiment(const std::vector<unsigned int> &l_sizes)
     :
@@ -12,6 +15,7 @@ Experiment::Experiment(const std::vector<unsigned int> &l_sizes)
       report("eee.txt"),
       cur_experiment_number(0)
 {
+  engine.seed(static_cast<unsigned>(std::time(nullptr)));
   set_buff_sizes(l_sizes);
 }
 
@@ -117,7 +121,7 @@ void Experiment::run_reverse(unsigned int byte_size)
   std::chrono::system_clock::time_point end =
       std::chrono::system_clock::now();
   std::chrono::duration<double> time = (end-start)/(1000*(int_size/16));
-  std::cout << "Reverse run: " << byte_size/1024 << " KB" << std::endl;
+  //std::cout << "Reverse run: " << byte_size/1024 << " KB" << std::endl;
   print_to_report(byte_size, time.count());
 }
 
@@ -133,13 +137,13 @@ void Experiment::run_random(unsigned int byte_size)
   for (unsigned k=0;k<1000; k++){
     for (int i=static_cast<int>(int_size-1); i>0; i-=16)
     {
-      t=buff.at(rand()%(int_size));
+      t=buff.at(engine()%(int_size));
     }
   }
   std::chrono::system_clock::time_point end =
       std::chrono::system_clock::now();
   std::chrono::duration<double> time = (end-start)/(1000*(int_size/16));
-  std::cout << "Random run: " << byte_size/1024 << " KB" << std::endl;
+  //std::cout << "Random run: " << byte_size/1024 << " KB" << std::endl;
   print_to_report(byte_size, time.count());
 }
 
@@ -153,21 +157,21 @@ void Experiment::generate_buff(unsigned int int_size)
   buff.clear();
   for (unsigned i=0; i<int_size;i++)
   {
-    buff.push_back(rand()); //change to rand_r
+    buff.push_back(engine()); //change to rand_r
   }
 }
 
 void Experiment::warm_up(unsigned byte_size)
 {
-  std::cout << buff.size() << " is buff size; size of int is "
-            << sizeof(int) << std::endl;
-  if (byte_size > L1DSIZE) byte_size = L1DSIZE;
+  //std::cout << buff.size() << " is buff size; size of int is "
+  //          << sizeof(int) << std::endl;
+  //if (byte_size > L1DSIZE) byte_size = L1DSIZE;
   unsigned int_size = byte_size/4;
   [[maybe_unused]] unsigned t=0;
   for (unsigned i=0; i<int_size; i+=16)
   {
     t=buff.at(i);
-    std::cout << t << " ";
+    //std::cout << t << " ";
   }
 }
 
