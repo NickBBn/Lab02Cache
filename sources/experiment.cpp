@@ -30,9 +30,7 @@ void Experiment::set_buff_sizes(const std::vector<unsigned int> &l_sizes)
       cur_number*=2;
     }
     tmp.push_back(l_sizes.at(0)/2);
-  }
-  else
-  {
+  } else {
     cur_number = l_sizes.at(0)/2;
   }
   for (unsigned i = 0; i < l_sizes.size(); i++)
@@ -61,21 +59,21 @@ void Experiment::run_experiment()
   report << "investigation: " << "\n"
          << "  travel variant: \"random\"" << std::endl
          << "  experiments:" << std::endl;
-  for (unsigned i=0; i<buff_byte_sizes.size(); i++){
+  for (unsigned i=0; i < buff_byte_sizes.size(); i++){
     cur_experiment_number++;
     run_random(buff_byte_sizes.at(i));
   }
   std::cout << std::endl;
   report << "investigation: " << std::endl
          << "  travel variant: \"reverse\"" << std::endl;
-  for (unsigned i=0; i<buff_byte_sizes.size(); i++){
+  for (unsigned i=0; i < buff_byte_sizes.size(); i++){
     cur_experiment_number++;
     run_reverse(buff_byte_sizes.at(i));
   }
   std::cout << std::endl;
   report << "investigation: " << std::endl
          << "  travel variant: \"direct\"" << std::endl;
-  for (unsigned i=0; i<buff_byte_sizes.size(); i++){
+  for (unsigned i=0; i < buff_byte_sizes.size(); i++){
     cur_experiment_number++;
     run_direct(buff_byte_sizes.at(i));
   }
@@ -112,7 +110,7 @@ void Experiment::run_reverse(unsigned int byte_size)
   std::chrono::system_clock::time_point start =
       std::chrono::system_clock::now();
   //std::cout << std::endl << " int_size = " << int_size << std::endl;
-  for (unsigned k=0; k<1000; k++){
+  for (unsigned k=0; k < 1000; k++){
     for (int i=static_cast<int>(int_size-1); i > 0; i -= 16)
     {
       t = buff.at(i);

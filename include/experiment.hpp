@@ -24,7 +24,7 @@ class Experiment
   void warm_up(unsigned byte_size);
   const std::vector<unsigned>& get_buff_sizes() const;
   bool is_power_of_two(unsigned number);
-  void print_to_report (unsigned byte_size, double time);
+  void print_to_report(unsigned byte_size, double time);
   const std::ostringstream& get_report() const;
  private:
   std::vector<unsigned> buff_byte_sizes;
