@@ -1,7 +1,7 @@
-// Copyright 2018 Your Name <your_email>
+// Copyright 2020 NickBBn <nickgeo.winner@gmail.com>
 
-#ifndef INCLUDE_HEADER_HPP_
-#define INCLUDE_HEADER_HPP_
+#ifndef INCLUDE_EXPERIMENT_HPP_
+#define INCLUDE_EXPERIMENT_HPP_
 #include <vector>
 #include <iostream>
 #include <sstream>
@@ -14,7 +14,7 @@
 class Experiment
 {
  public:
-  Experiment(const std::vector<unsigned> &sizes);
+  explicit Experiment(const std::vector<unsigned> &sizes);
   void set_buff_sizes(const std::vector<unsigned> &l_sizes);
   void run_experiment();
   void run_direct(unsigned byte_size);
@@ -33,4 +33,4 @@ class Experiment
   unsigned cur_experiment_number;
 };
 
-#endif // INCLUDE_HEADER_HPP_
+#endif // INCLUDE_EXPERIMENT_HPP_

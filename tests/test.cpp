@@ -42,7 +42,7 @@ TEST(Example, String)
   l_sizes.push_back(96);
   l_sizes.push_back(1024);
   l_sizes.push_back(1024*16);
-  Experiment second (l_sizes);
+  Experiment second(l_sizes);
   second.print_to_report(1024, 34.000000000);
   std::cout << second.get_report().str() << std::endl;
 }
