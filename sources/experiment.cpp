@@ -25,30 +25,30 @@ void Experiment::set_buff_sizes(const std::vector<unsigned int> &l_sizes)
   unsigned cur_number;
   if (!is_power_of_two(l_sizes.at(0)))
   {
-    cur_number=2;
-    while (cur_number<l_sizes.at(0)/2) {
+    cur_number = 2;
+    while (cur_number < l_sizes.at(0)/2) {
       cur_number*=2;
     }
     tmp.push_back(l_sizes.at(0)/2);
   }
   else
   {
-    cur_number=l_sizes.at(0)/2;
+    cur_number = l_sizes.at(0)/2;
   }
-  for (unsigned i=0; i<l_sizes.size(); i++)
+  for (unsigned i = 0; i < l_sizes.size(); i++)
   {
-    while (cur_number<l_sizes.at(i))
+    while (cur_number < l_sizes.at(i))
     {
       tmp.push_back(cur_number);
       cur_number*=2;
     }
-    if (cur_number!=l_sizes.at(i)) tmp.push_back(l_sizes.at(i));
+    if (cur_number != l_sizes.at(i)) tmp.push_back(l_sizes.at(i));
   }
   tmp.push_back(l_sizes.at(2));
   tmp.push_back(l_sizes.at(2)*3/2);
  // tmp.erase(tmp.begin());// #TODO fix!!!
  // tmp.erase(tmp.begin());// #TODO fix!!!
-  buff_byte_sizes=tmp;
+  buff_byte_sizes = tmp;
 }
 
 const std::vector<unsigned> &Experiment::get_buff_sizes() const {
@@ -59,42 +59,42 @@ void Experiment::run_experiment()
 {
   srand(static_cast<unsigned int>(time(0)));
   report << "investigation: " << "\n"
-         << "  travel variant: \"direct\"" << std::endl
+         << "  travel variant: \"random\"" << std::endl
          << "  experiments:" << std::endl;
-  for (unsigned i=0;i<buff_byte_sizes.size();i++){
+  for (unsigned i=0; i<buff_byte_sizes.size(); i++){
     cur_experiment_number++;
-    run_direct(buff_byte_sizes.at(i));
+    run_random(buff_byte_sizes.at(i));
   }
   std::cout << std::endl;
   report << "investigation: " << std::endl
          << "  travel variant: \"reverse\"" << std::endl;
-  for (unsigned i=0;i<buff_byte_sizes.size();i++){
+  for (unsigned i=0; i<buff_byte_sizes.size(); i++){
     cur_experiment_number++;
     run_reverse(buff_byte_sizes.at(i));
   }
   std::cout << std::endl;
   report << "investigation: " << std::endl
-         << "  travel variant: \"random\"" << std::endl;
-  for (unsigned i=0;i<buff_byte_sizes.size();i++){
+         << "  travel variant: \"direct\"" << std::endl;
+  for (unsigned i=0; i<buff_byte_sizes.size(); i++){
     cur_experiment_number++;
-    run_random(buff_byte_sizes.at(i));
+    run_direct(buff_byte_sizes.at(i));
   }
   std::cout << std::endl;
 }
 
 void Experiment::run_direct(unsigned int byte_size)
 {
-  unsigned int_size=byte_size/sizeof(int);
-  [[maybe_unused]] unsigned t=0;
+  unsigned int_size = byte_size/sizeof(int);
+  [[maybe_unused]] unsigned t = 0;
   generate_buff(int_size);
   warm_up(byte_size);
   std::chrono::system_clock::time_point start =
       std::chrono::system_clock::now();
   //std::cout << std::endl << " int_size = " << int_size << std::endl;
-  for (unsigned k=0;k<1000; k++){
-    for (unsigned i=0; i<int_size; i+=16)
+  for (unsigned k = 0; k < 1000; k++){
+    for (unsigned i = 0; i < int_size; i += 16)
     {
-      t=buff.at(i);
+      t = buff.at(i);
     }
   }
   std::chrono::system_clock::time_point end =
@@ -106,14 +106,14 @@ void Experiment::run_direct(unsigned int byte_size)
 void Experiment::run_reverse(unsigned int byte_size)
 {
   unsigned int_size = byte_size/sizeof(int);
-  [[maybe_unused]] unsigned t=0;
+  [[maybe_unused]] unsigned t = 0;
   generate_buff(int_size);
   warm_up(byte_size);
   std::chrono::system_clock::time_point start =
       std::chrono::system_clock::now();
   //std::cout << std::endl << " int_size = " << int_size << std::endl;
-  for (unsigned k=0;k<1000; k++){
-    for (int i=static_cast<int>(int_size-1); i>0; i-=16)
+  for (unsigned k=0; k<1000; k++){
+    for (int i=static_cast<int>(int_size-1); i > 0; i -= 16)
     {
       t=buff.at(i);
     }
@@ -177,7 +177,12 @@ void Experiment::warm_up(unsigned byte_size)
 
 void Experiment::print_to_report(unsigned byte_size, double time)
 {
-  std::string time_string = std::to_string(time*1000000000) + "ns";
+  std::string time_string = std::to_string(time*1000000000);
+  do{
+    time_string.pop_back();
+  } while (time_string[time_string.size()-1]=='0');
+  time_string.pop_back();
+  time_string += " ns";
   report << "  - experiment" << std::endl
          << "    number: " << cur_experiment_number << std::endl
          << "    input data: " << std::endl

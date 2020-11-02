@@ -4,15 +4,15 @@
 #include "experiment.hpp"
 #include <iostream>
 
-TEST (Example, EmptyTest)
+TEST(Example, EmptyTest)
 {
   std::vector<unsigned> l_sizes;
   l_sizes.push_back(L1DSIZE);
   l_sizes.push_back(L2SIZE);
   l_sizes.push_back(L3SIZE);
-  Experiment first (l_sizes);
+  Experiment first(l_sizes);
   auto& tmp = first.get_buff_sizes();
-  for (unsigned i=0; i<tmp.size(); i++)
+  for (unsigned i=0; i < tmp.size(); i++)
   {
     std::cout << tmp.at(i) << std::endl;
   }
@@ -36,13 +36,24 @@ TEST (Example, power_of_two_test)
   EXPECT_TRUE(true);
 }*/
 
-TEST (Example, First_run)
+TEST(Example, String)
+{
+  std::vector<unsigned> l_sizes;
+  l_sizes.push_back(96);
+  l_sizes.push_back(1024);
+  l_sizes.push_back(1024*16);
+  Experiment second (l_sizes);
+  second.print_to_report(1024, 34.000000000);
+  std::cout << second.get_report().str() << std::endl;
+}
+
+TEST(Example, First_run)
 {
   std::vector<unsigned> l_sizes;
   l_sizes.push_back(L1DSIZE);
   l_sizes.push_back(L2SIZE);
   l_sizes.push_back(L3SIZE);
-  Experiment third (l_sizes);
+  Experiment third(l_sizes);
   third.run_experiment();
   std::cout << std::endl << std::endl << std::endl << std::endl;
   std::cout << third.get_report().str();
