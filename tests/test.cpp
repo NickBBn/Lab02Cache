@@ -35,7 +35,7 @@ TEST (Example, power_of_two_test)
   }
   EXPECT_TRUE(true);
 }*/
-
+/*
 TEST(Example, String)
 {
   std::vector<unsigned> l_sizes;
@@ -45,7 +45,7 @@ TEST(Example, String)
   Experiment second(l_sizes);
   second.print_to_report(1024, 34.000000000);
   std::cout << second.get_report().str() << std::endl;
-}
+}*/
 
 TEST(Example, First_run)
 {
