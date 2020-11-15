@@ -3,18 +3,14 @@
 #include <experiment.hpp>
 #include <iostream>
 #include <chrono>
-#include <random>
 
-#define ITERATIONS 1000
-
-std::mt19937 engine;
-std::random_device rd;
+const int Iteration (1000);
 
 Experiment::Experiment(const std::vector<unsigned int> &l_sizes)
     :
       buff_byte_sizes(0),
       buff(0),
-      report("eee.txt"),
+      report(),
       cur_experiment_number(0)
 {
   engine.seed(static_cast<unsigned>(std::time(nullptr)));
@@ -35,7 +31,7 @@ void Experiment::set_buff_sizes(const std::vector<unsigned int> &l_sizes)
   } else {
     cur_number = l_sizes.at(0)/2;
   }
-  for (unsigned i = 0; i < l_sizes.size(); i++)
+  for (unsigned i = 0; i < l_sizes.size(); ++i)
   {
     while (cur_number < l_sizes.at(i))
     {
@@ -46,8 +42,6 @@ void Experiment::set_buff_sizes(const std::vector<unsigned int> &l_sizes)
   }
   tmp.push_back(l_sizes.at(2));
   tmp.push_back(l_sizes.at(2)*3/2);
- // tmp.erase(tmp.begin());// #TODO fix!!!
- // tmp.erase(tmp.begin());// #TODO fix!!!
   buff_byte_sizes = tmp;
 }
 
@@ -61,28 +55,28 @@ void Experiment::run_experiment()
   report << "investigation: " << "\n"
          << "  travel variant: \"reverse\"" << std::endl
          << "  experiments:" << std::endl;
-  for (unsigned i=0; i < buff_byte_sizes.size(); i++){
+  for (unsigned i=0; i < buff_byte_sizes.size(); ++i){
     cur_experiment_number++;
     run_reverse(buff_byte_sizes.at(i));
   }
   std::cout << std::endl;
   report << "investigation: " << std::endl
          << "  travel variant: \"direct\"" << std::endl;
-  for (unsigned i=0; i < buff_byte_sizes.size(); i++){
+  for (unsigned i=0; i < buff_byte_sizes.size(); ++i){
     cur_experiment_number++;
     run_direct(buff_byte_sizes.at(i));
   }
   std::cout << std::endl;
   report << "investigation: " << std::endl
          << "  travel variant: \"random\"" << std::endl;
-  for (unsigned i=0; i < buff_byte_sizes.size(); i++){
+  for (unsigned i=0; i < buff_byte_sizes.size(); ++i){
     cur_experiment_number++;
     run_random(buff_byte_sizes.at(i));
   }
   std::cout << std::endl;
 }
 
-void Experiment::run_direct(unsigned int byte_size)
+void Experiment::run_direct(const unsigned int& byte_size)
 {
   unsigned int_size = byte_size/sizeof(int);
   [[maybe_unused]] unsigned t = 0;
@@ -91,7 +85,7 @@ void Experiment::run_direct(unsigned int byte_size)
   std::chrono::system_clock::time_point start =
       std::chrono::system_clock::now();
   //std::cout << std::endl << " int_size = " << int_size << std::endl;
-  for (unsigned k = 0; k < ITERATIONS; k++){
+  for (unsigned k = 0; k < Iteration; k++){
     for (unsigned i = 0; i < int_size; i += 16)
     {
       t = buff.at(i);
@@ -99,25 +93,11 @@ void Experiment::run_direct(unsigned int byte_size)
   }
   std::chrono::system_clock::time_point end =
       std::chrono::system_clock::now();
-  std::chrono::duration<double> time = (end-start)/(ITERATIONS*(int_size/16));
-/*
-  double total_time = 0.0;
-  const uint32_t run_count = 1000;
-  for (uint32_t i = 0; i < run_count; ++i) {
-    auto start_point = std::chrono::high_resolution_clock::now();
-    for (unsigned j = 0; j < int_size; ++j)
-      t = buff.at(i);
-    auto end_point = std::chrono::high_resolution_clock::now();
-    total_time +=\
-        std::chrono::duration_cast<std::chrono::microseconds>(end_point - \
-        start_point).count();
-  }
-  total_time /= run_count;
- */
+  std::chrono::duration<double> time = (end-start)/(Iteration*(int_size/16));
   print_to_report(byte_size, time.count()/* total_time*/);
 }
 
-void Experiment::run_reverse(unsigned int byte_size)
+void Experiment::run_reverse(const unsigned int& byte_size)
 {
   unsigned int_size = byte_size/sizeof(int);
   [[maybe_unused]] unsigned t = 0;
@@ -126,7 +106,7 @@ void Experiment::run_reverse(unsigned int byte_size)
   std::chrono::system_clock::time_point start =
       std::chrono::system_clock::now();
   //std::cout << std::endl << " int_size = " << int_size << std::endl;
-  for (unsigned k=0; k < ITERATIONS; k++){
+  for (unsigned k=0; k < Iteration; ++k){
     for (int i=static_cast<int>(int_size-1); i > 0; i -= 16)
     {
       t = buff.at(i);
@@ -134,12 +114,12 @@ void Experiment::run_reverse(unsigned int byte_size)
   }
   std::chrono::system_clock::time_point end =
       std::chrono::system_clock::now();
-  std::chrono::duration<double> time = (end-start)/(ITERATIONS*(int_size/16));
+  std::chrono::duration<double> time = (end-start)/(Iteration*(int_size/16));
   //std::cout << "Reverse run: " << byte_size/1024 << " KB" << std::endl;
   print_to_report(byte_size, time.count());
 }
 
-void Experiment::run_random(unsigned int byte_size)
+void Experiment::run_random(const unsigned int& byte_size)
 {
   unsigned int_size = byte_size/sizeof(int);
   [[maybe_unused]] unsigned t = 0;
@@ -148,7 +128,7 @@ void Experiment::run_random(unsigned int byte_size)
   std::chrono::system_clock::time_point start =
       std::chrono::system_clock::now();
   //std::cout << std::endl << " int_size = " << int_size << std::endl;
-  for (unsigned k = 0; k < ITERATIONS; k++){
+  for (unsigned k = 0; k < Iteration; ++k){
     for (int i=static_cast<int>(int_size-1); i > 0; i-=16)
     {
       t = buff.at(engine()%(int_size));
@@ -156,27 +136,27 @@ void Experiment::run_random(unsigned int byte_size)
   }
   std::chrono::system_clock::time_point end =
       std::chrono::system_clock::now();
-  std::chrono::duration<double> time = (end-start)/(ITERATIONS*(int_size/16));
+  std::chrono::duration<double> time = (end-start)/(Iteration*(int_size/16));
   //std::cout << "Random run: " << byte_size/1024 << " KB" << std::endl;
   print_to_report(byte_size, time.count());
 }
 
-bool Experiment::is_power_of_two(unsigned int number) {
+bool Experiment::is_power_of_two(const unsigned int& number) {
   if (((number & (number - 1)) == 0) && (number > 1)) return true;
   else
     return false;
 }
 
-void Experiment::generate_buff(unsigned int int_size)
+void Experiment::generate_buff(const unsigned int& int_size)
 {
   buff.clear();
-  for (unsigned i = 0; i < int_size; i++)
+  for (unsigned i = 0; i < int_size; ++i)
   {
-    buff.push_back(engine()); //change to rand_r
+    buff.push_back(engine());
   }
 }
 
-void Experiment::warm_up(unsigned byte_size)
+void Experiment::warm_up(const unsigned& byte_size)
 {
   unsigned int_size = byte_size/4;
   [[maybe_unused]] unsigned t = 0;
@@ -187,7 +167,7 @@ void Experiment::warm_up(unsigned byte_size)
   }
 }
 
-void Experiment::print_to_report(unsigned byte_size, double time)
+void Experiment::print_to_report(const unsigned& byte_size, double time)
 {
   std::string time_string = std::to_string(time*1000000000);
   do{
