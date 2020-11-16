@@ -8,10 +8,6 @@
 #include <chrono>
 #include <random>
 
-//#define L1DSIZE 98304
-//#define L2SIZE 1048576
-//#define L3SIZE 16777216
-
 class Experiment
 {
  public:

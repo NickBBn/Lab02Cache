@@ -4,9 +4,9 @@
 #include "experiment.hpp"
 #include <iostream>
 
-const int L1d_size (98304);
-const int L2_size (1048576);
-const int L3_size (16777216);
+const int L1d_size(98304);
+const int L2_size(1048576);
+const int L3_size(16777216);
 
 TEST(Example, First_run)
 {

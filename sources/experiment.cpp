@@ -53,11 +53,11 @@ void Experiment::run_experiment()
 {
   srand(static_cast<unsigned int>(time(0)));
   report << "investigation: " << "\n"
-         << "  travel variant: \"reverse\"" << std::endl
+         << "  travel variant: \"random\"" << std::endl
          << "  experiments:" << std::endl;
   for (unsigned i=0; i < buff_byte_sizes.size(); ++i){
     cur_experiment_number++;
-    run_reverse(buff_byte_sizes.at(i));
+    run_random(buff_byte_sizes.at(i));
   }
   std::cout << std::endl;
   report << "investigation: " << std::endl
@@ -68,10 +68,10 @@ void Experiment::run_experiment()
   }
   std::cout << std::endl;
   report << "investigation: " << std::endl
-         << "  travel variant: \"random\"" << std::endl;
+         << "  travel variant: \"reverse\"" << std::endl;
   for (unsigned i=0; i < buff_byte_sizes.size(); ++i){
     cur_experiment_number++;
-    run_random(buff_byte_sizes.at(i));
+    run_reverse(buff_byte_sizes.at(i));
   }
   std::cout << std::endl;
 }
@@ -137,7 +137,6 @@ void Experiment::run_random(const unsigned int& byte_size)
   std::chrono::system_clock::time_point end =
       std::chrono::system_clock::now();
   std::chrono::duration<double> time = (end-start)/(Iteration*(int_size/16));
-  //std::cout << "Random run: " << byte_size/1024 << " KB" << std::endl;
   print_to_report(byte_size, time.count());
 }
 
