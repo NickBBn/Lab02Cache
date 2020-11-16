@@ -132,27 +132,234 @@ cache_size['3'] = 8 mb;
 
 ### Результаты
 
-Ниже представлен формат и пример отчета:
+Ниже представлен резльтат работы:
 
 ```yaml
-investigation:                                       |  investigaion:
-  travel_variant: <вариант_прохода>                  |    travel_order: "direction"
-  experiments:                                       |    experiments:
-  - experiment:                                      |    - experiment:
-      number:                                        |        number: 1
-      input_data:                                    |        input_data:
-        buffer_size: <размер_буфера>                 |          buffer_size: "1mb"
-      results:                                       |        results:
-        duration: <продолжительность>                |          duration: "1ns"
-  - experiment:                                      |    - experiment:
-      number: <номер_эксперимента>                   |        number: 2
-      input_data:                                    |        input_data:
-        buffer_size: <размер_буфера>                 |          buffer_size: "2mb"
-      results:                                       |        results:
-        duration: <продолжительность>                |          duration: "2ns"
-                                                     |
-investigation:                                       |  investigation:
-...                                                  |  ...
+  investigation:
+   travel variant: "random"
+   experiments:
+   - experiment
+     number: 1
+     input data:
+       buffer_size: 48 KB
+     results:
+       duration: 149 ns
+   - experiment
+     number: 2
+     input data:
+       buffer_size: 64 KB
+     results:
+       duration: 96 ns
+   - experiment
+     number: 3
+     input data:
+       buffer_size: 96 KB
+     results:
+       duration: 148 ns
+   - experiment
+     number: 4
+     input data:
+       buffer_size: 128 KB
+     results:
+       duration: 91 ns
+   - experiment
+     number: 5
+     input data:
+       buffer_size: 256 KB
+     results:
+       duration: 95 ns
+   - experiment
+     number: 6
+     input data:
+       buffer_size: 512 KB
+     results:
+       duration: 61 ns
+   - experiment
+     number: 7
+     input data:
+       buffer_size: 1 MB
+     results:
+       duration: 67 ns
+   - experiment
+     number: 8
+     input data:
+       buffer_size: 2 MB
+     results:
+       duration: 68 ns
+   - experiment
+     number: 9
+     input data:
+       buffer_size: 4 MB
+     results:
+       duration: 69 ns
+   - experiment
+     number: 10
+     input data:
+       buffer_size: 8 MB
+     results:
+         duration: 80 ns
+   - experiment
+     number: 11
+     input data:
+       buffer_size: 16 MB
+     results:
+       duration: 95 ns
+   - experiment
+     number: 12
+     input data:
+       buffer_size: 24 MB
+     results:
+       duration: 97 ns
+ investigation:
+   travel variant: "direct"
+   - experiment
+     number: 13
+     input data:
+       buffer_size: 48 KB
+     results:
+       duration: 14 ns
+   - experiment
+     number: 14
+     input data:
+       buffer_size: 64 KB
+     results:
+       duration: 13 ns
+   - experiment
+     number: 15
+     input data:
+       buffer_size: 96 KB
+     results:
+       duration: 13 ns
+   - experiment
+     number: 16
+     input data:
+       buffer_size: 128 KB
+     results:
+       duration: 13 ns
+   - experiment
+     number: 17
+     input data:
+       buffer_size: 256 KB
+     results:
+       duration: 13 ns
+   - experiment
+     number: 18
+     input data:
+       buffer_size: 512 KB
+     results:
+       duration: 14 ns
+   - experiment
+     number: 19
+     input data:
+       buffer_size: 1 MB
+     results:
+       duration: 14 ns
+   - experiment
+     number: 20
+     input data:
+       buffer_size: 2 MB
+     results:
+       duration: 13 ns
+   - experiment
+     number: 21
+     input data:
+       buffer_size: 4 MB
+     results:
+       duration: 13 ns
+   - experiment
+     number: 22
+     input data:
+       buffer_size: 8 MB
+     results:
+       duration: 14 ns
+   - experiment
+     number: 23
+     input data:
+       buffer_size: 16 MB
+     results:
+       duration: 15 ns
+   - experiment
+     number: 24
+     input data:
+       buffer_size: 24 MB
+     results:
+       duration: 15 ns
+ investigation:
+   travel variant: "reverse"
+   - experiment
+     number: 25
+     input data:
+       buffer_size: 48 KB
+     results:
+       duration: 13 ns
+   - experiment
+     number: 26
+     input data:
+       buffer_size: 64 KB
+     results:
+       duration: 12 ns
+   - experiment
+     number: 27
+     input data:
+       buffer_size: 96 KB
+     results:
+       duration: 13 ns
+   - experiment
+     number: 28
+     input data:
+       buffer_size: 128 KB
+     results:
+       duration: 13 ns
+   - experiment
+     number: 29
+     input data:
+       buffer_size: 256 KB
+     results:
+       duration: 13 ns
+   - experiment
+     number: 30
+     input data:
+       buffer_size: 512 KB
+     results:
+       duration: 15 ns
+   - experiment
+     number: 31
+     input data:
+       buffer_size: 1 MB
+     results:
+       duration: 13 ns
+   - experiment
+     number: 32
+     input data:
+       buffer_size: 2 MB
+     results:
+       duration: 14 ns
+   - experiment
+     number: 33
+     input data:
+       buffer_size: 4 MB
+     results:
+       duration: 14 ns
+   - experiment
+     number: 34
+     input data:
+       buffer_size: 8 MB
+     results:
+       duration: 16 ns
+   - experiment
+     number: 35
+     input data:
+       buffer_size: 16 MB
+     results:
+       duration: 16 ns
+   - experiment
+     number: 36
+     input data:
+       buffer_size: 24 MB
+     results:
+       duration: 17 ns                                                                                                                 
 ```
 
-⚠️ В отчет также необходимо добавить общий график с результатами всех исследований. ⚠️
+Общий график с результатами всех исследований:️
+
+![Graph](./images/graph.png)`

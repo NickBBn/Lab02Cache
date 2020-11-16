@@ -4,7 +4,7 @@
 #include <iostream>
 #include <chrono>
 
-const int Iteration (1000);
+const int Iteration(1000);
 
 Experiment::Experiment(const std::vector<unsigned int> &l_sizes)
     :
